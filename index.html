@@ -181,16 +181,16 @@
 <div class="col-sm-12 ">
 <div class="banner">
 <h1 class="title">Hitad.lk - Most Trusted Classified Brand In Sri Lanka </h1>
-<header><div class="dropdown language-dropdown btn btn-light" style="padding: 5px 10px; border-radius: 50px">
-<i class="fa fa-map-marker"></i>
-<a data-toggle="dropdown" href="#"><span class="change-text">All of Sri Lanka</span> <i class="fa fa-angle-down"></i></a>
-<ul class="dropdown-menu language-change">
-<li><a href="#">Colombo</a></li>
-<li><a href="#">Kandy</a></li>
-<li><a href="#">Matara</a></li>
-<li><a href="#">Gampaha</a></li>
-</ul>
-</div></header>
+<header>
+  <div class="dropdown language-dropdown btn btn-light" style="padding: 5px 10px; border-radius: 50px">
+      <i class="fa fa-map-marker"></i>
+      <a data-toggle="dropdown" href="#"><span class="change-text">All of Sri Lanka</span> <i class="fa fa-angle-down"></i></a>
+      <ul id="districtDropdown" class="dropdown-menu language-change">
+          <!-- Dynamically populated list items will go here -->
+      </ul>
+  </div>
+</header>
+
 
 <div class="banner-form">
 <form action="#">
@@ -469,7 +469,31 @@
 </div>
 </div>
 </footer>
-
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      fetch('http://127.0.0.1:8000/api/districts')
+          .then(response => response.json())
+          .then(data => {
+              const dropdown = document.getElementById('districtDropdown');
+              dropdown.innerHTML = ''; // Clear existing entries
+              data.forEach(district => {
+                  let listItem = document.createElement('li');
+                  let link = document.createElement('a');
+                  link.href = "#";
+                  link.textContent = district.district;
+                  listItem.appendChild(link);
+                  dropdown.appendChild(listItem);
+              });
+          })
+          .catch(error => console.error('Error fetching districts:', error));
+  });
+</script>
+  
+  
+<!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 
