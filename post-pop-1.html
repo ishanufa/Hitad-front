@@ -19,6 +19,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <link rel="icon" href="images/ico/favicon.ico">
 
@@ -181,16 +182,41 @@
 <div class="col-sm-12 ">
 <div class="banner">
 <h1 class="title">Hitad.lk - Most Trusted Classified Brand In Sri Lanka </h1>
-<header><div class="dropdown language-dropdown btn btn-light" style="padding: 5px 10px; border-radius: 50px">
-<i class="fa fa-map-marker"></i>
-<a data-toggle="dropdown" href="#"><span class="change-text">All of Sri Lanka</span> <i class="fa fa-angle-down"></i></a>
-<ul class="dropdown-menu language-change">
-<li><a href="#">Colombo</a></li>
-<li><a href="#">Kandy</a></li>
-<li><a href="#">Matara</a></li>
-<li><a href="#">Gampaha</a></li>
-</ul>
-</div></header>
+<header>
+  <div class="dropdown language-dropdown btn btn-light" style="padding: 5px 10px; border-radius: 50px">
+      <i class="fa fa-map-marker"></i>
+      <a data-toggle="dropdown" href="#">
+          <span class="change-text">All of Sri Lanka</span> <i class="fa fa-angle-down"></i>
+      </a>
+      <ul id="districtDropdown" class="dropdown-menu language-change">
+          <!-- Districts will be populated here -->
+      </ul>
+  </div>
+</header>
+<script>
+  $(document).ready(function() {
+      $.ajax({
+          url: 'http://127.0.0.1:8000/api/update_districts',  // Make sure this URL is correct
+          method: 'GET',
+          success: function(data) {
+              console.log("API Data:", data);  // Log data to see what's returned from the API
+              let dropdown = $('#districtDropdown');
+              dropdown.empty();  // Clear existing options
+  
+              // Assuming 'data' is an array of objects with 'district_name'
+              data.forEach(function(district) {
+                  dropdown.append('<li><a href="#">' + district.district_name + '</a></li>');
+              });
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              console.error('Error fetching data: ', textStatus, errorThrown);
+          }
+      });
+  });
+</script>
+  
+  
+
 
 <div class="banner-form">
 <form action="#">
@@ -471,7 +497,7 @@
 
 
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="js/jquery.min.js" type="1177891fcbf0a3c3e6f72ecc-text/javascript"></script>
 <script src="js/popper.min.js" type="1177891fcbf0a3c3e6f72ecc-text/javascript"></script>
 <script src="js/modernizr.min.js" type="1177891fcbf0a3c3e6f72ecc-text/javascript"></script>
